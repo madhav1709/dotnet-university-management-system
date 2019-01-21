@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace UniversityManagementSystem.DataSources.IdentityServer
+namespace UniversityManagementSystem.IdentityServer
 {
     public class Program
     {

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace UniversityManagementSystem.DataSources.IdentityServer
+namespace UniversityManagementSystem.IdentityServer
 {
     public static class Config
     {
         public static IEnumerable<ApiResource> ApiResources { get; } = new[]
         {
-            new ApiResource("api", "My API")
+            new ApiResource("https://localhost:5001", "Membership API")
         };
 
         public static IEnumerable<Client> Clients { get; } = new[]
@@ -15,7 +15,7 @@ namespace UniversityManagementSystem.DataSources.IdentityServer
             new Client
             {
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-                AllowedScopes = new[] {"api"},
+                AllowedScopes = new[] {"https://localhost:5001"},
 
                 ClientId = "client",
                 ClientSecrets = new[] {new Secret("secret".Sha256())}

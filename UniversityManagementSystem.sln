@@ -1,5 +1,15 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.DataSources.IdentityServer", "UniversityManagementSystem.DataSources.IdentityServer\UniversityManagementSystem.DataSources.IdentityServer.csproj", "{023B57D0-61F7-4506-B0D2-610EB82C7A5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.IdentityServer", "UniversityManagementSystem.IdentityServer\UniversityManagementSystem.IdentityServer.csproj", "{023B57D0-61F7-4506-B0D2-610EB82C7A5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Membership.WebApi", "UniversityManagementSystem.Membership.WebApi\UniversityManagementSystem.Membership.WebApi.csproj", "{C539259F-BE9D-48A4-A1C3-3B4C56541583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Membership.Data", "UniversityManagementSystem.Membership.Data\UniversityManagementSystem.Membership.Data.csproj", "{2E44D50D-161C-4B2A-9007-7BAC4C47C78A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Membership.Services", "UniversityManagementSystem.Membership.Services\UniversityManagementSystem.Membership.Services.csproj", "{BB7F28B6-8A47-4AC3-9A6D-A0DB7C6D5145}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Exceptions", "UniversityManagementSystem.Exceptions\UniversityManagementSystem.Exceptions.csproj", "{2D60AC60-AFA7-4914-9495-15A5816FA33D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Specifications", "UniversityManagementSystem.Specifications\UniversityManagementSystem.Specifications.csproj", "{748B701B-B1C7-427A-9DE6-B57BBBAC830A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,6 +21,26 @@ Global
 		{023B57D0-61F7-4506-B0D2-610EB82C7A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{023B57D0-61F7-4506-B0D2-610EB82C7A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{023B57D0-61F7-4506-B0D2-610EB82C7A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C539259F-BE9D-48A4-A1C3-3B4C56541583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C539259F-BE9D-48A4-A1C3-3B4C56541583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C539259F-BE9D-48A4-A1C3-3B4C56541583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C539259F-BE9D-48A4-A1C3-3B4C56541583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E44D50D-161C-4B2A-9007-7BAC4C47C78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E44D50D-161C-4B2A-9007-7BAC4C47C78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E44D50D-161C-4B2A-9007-7BAC4C47C78A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E44D50D-161C-4B2A-9007-7BAC4C47C78A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB7F28B6-8A47-4AC3-9A6D-A0DB7C6D5145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB7F28B6-8A47-4AC3-9A6D-A0DB7C6D5145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB7F28B6-8A47-4AC3-9A6D-A0DB7C6D5145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB7F28B6-8A47-4AC3-9A6D-A0DB7C6D5145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D60AC60-AFA7-4914-9495-15A5816FA33D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D60AC60-AFA7-4914-9495-15A5816FA33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D60AC60-AFA7-4914-9495-15A5816FA33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D60AC60-AFA7-4914-9495-15A5816FA33D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

@@ -20,13 +20,21 @@ Create a database named "UniversityManagementSystem.Membership".
 
 ### Step 5
 
-Run `dotnet ef database update` to update the database.
+Run `dotnet ef database update` from the Membership.WebApi Project.
 
 ### Step 6
 
-Run the IdentityServer Project.
+Create a database named "UniversityManagementSystem.Core".
 
 ### Step 7
+
+Run `dotnet ef database update` from the Core.WebApi Project.
+
+### Step 8
+
+Run the IdentityServer Project.
+
+### Step 9
 
 Send a POST request to https://localhost:5000/connect/token as follows:
 * Headers
@@ -36,15 +44,15 @@ Send a POST request to https://localhost:5000/connect/token as follows:
     * client_secret: secret
     * grant_type: client_credentials
 
-### Step 8
+### Step 10
 
 Make a note of the "access_token" in the response.
 
-### Step 9
+### Step 11
 
-Run the Membership.WebApi Project.
+Run the Core and/or Membership WebApi Projects.
 
-### Step 10
+### Step 12
 
 Use the "access_token" as the BearerAuth to make requests.
 

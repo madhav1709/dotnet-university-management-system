@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
     </PropertyGroup>
 
     <ItemGroup>

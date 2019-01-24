@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Specifications", "UniversityManagementSystem.Specifications\UniversityManagementSystem.Specifications.csproj", "{748B701B-B1C7-427A-9DE6-B57BBBAC830A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Core.WebApi", "UniversityManagementSystem.Core.WebApi\UniversityManagementSystem.Core.WebApi.csproj", "{743132F2-B706-47D8-AB28-7A1BF013A650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Core.Data", "UniversityManagementSystem.Core.Data\UniversityManagementSystem.Core.Data.csproj", "{BCA64489-EEA7-4065-AE8A-71B2BA188167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Core.Services", "UniversityManagementSystem.Core.Services\UniversityManagementSystem.Core.Services.csproj", "{24136523-617B-4600-ADF5-DD1D5177A630}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +47,18 @@ Global
 		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{748B701B-B1C7-427A-9DE6-B57BBBAC830A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{743132F2-B706-47D8-AB28-7A1BF013A650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{743132F2-B706-47D8-AB28-7A1BF013A650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{743132F2-B706-47D8-AB28-7A1BF013A650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{743132F2-B706-47D8-AB28-7A1BF013A650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA64489-EEA7-4065-AE8A-71B2BA188167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA64489-EEA7-4065-AE8A-71B2BA188167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA64489-EEA7-4065-AE8A-71B2BA188167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA64489-EEA7-4065-AE8A-71B2BA188167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24136523-617B-4600-ADF5-DD1D5177A630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24136523-617B-4600-ADF5-DD1D5177A630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24136523-617B-4600-ADF5-DD1D5177A630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24136523-617B-4600-ADF5-DD1D5177A630}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

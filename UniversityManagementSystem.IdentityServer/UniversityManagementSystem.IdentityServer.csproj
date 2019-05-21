@@ -9,10 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="IdentityServer4">
-          <Version>2.3.2</Version>
-        </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.App">
-          <Version>3.0.0-preview-18579-0056</Version>
+          <Version>3.0.0-preview3.4</Version>
         </PackageReference>
     </ItemGroup>
 

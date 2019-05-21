@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UniversityManagementSystem.Membership.Data.Contexts;
 using UniversityManagementSystem.Membership.Data.Entities;
@@ -27,10 +28,7 @@ namespace UniversityManagementSystem.Membership.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore()
-                .AddApiExplorer()
-                .AddAuthorization()
-                .AddJsonFormatters();
+            services.AddControllers();
 
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
@@ -49,15 +47,20 @@ namespace UniversityManagementSystem.Membership.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
                 app.UseHsts();
 
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseHttpsRedirection();
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -67,7 +70,7 @@ namespace UniversityManagementSystem.Membership.WebApi
                 );
             });
 
-            app.UseMvc();
+            app.UseEndpoints(builder => builder.MapControllers());
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -92,7 +95,7 @@ namespace UniversityManagementSystem.Membership.WebApi
                 expression.AddProfile<UserMappingProfile>();
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         private void ConfigureContexts(IServiceCollection services)

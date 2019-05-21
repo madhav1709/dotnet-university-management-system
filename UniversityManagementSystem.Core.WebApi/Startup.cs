@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UniversityManagementSystem.Core.Data.Contexts;
 using UniversityManagementSystem.Core.Services;
@@ -25,10 +26,7 @@ namespace UniversityManagementSystem.Core.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore()
-                .AddApiExplorer()
-                .AddAuthorization()
-                .AddJsonFormatters();
+            services.AddControllers();
 
             services.AddScoped<IAssignmentService, AssignmentService>();
             services.AddScoped<IBookService, BookService>();
@@ -55,15 +53,20 @@ namespace UniversityManagementSystem.Core.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
                 app.UseHsts();
 
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseHttpsRedirection();
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -72,8 +75,8 @@ namespace UniversityManagementSystem.Core.WebApi
                     "University Management System Core API V1"
                 );
             });
-            
-            app.UseMvc();
+
+            app.UseEndpoints(builder => builder.MapControllers());
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -109,7 +112,7 @@ namespace UniversityManagementSystem.Core.WebApi
                 expression.AddProfile<RunMappingProfile>();
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         private void ConfigureContexts(IServiceCollection services)

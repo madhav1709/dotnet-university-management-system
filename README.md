@@ -16,23 +16,23 @@ Start the automatic instance named "MSSQLLocalDB".
 
 ### Step 4
 
-Create a database named "UniversityManagementSystem.Membership".
+Create a database named "UniversityManagementSystem".
 
 ### Step 5
 
-Run `dotnet ef database update` from the Membership.WebApi Project.
+Run `dotnet ef database update` from the Apps.WebApi Project.
 
 ### Step 6
 
-Create a database named "UniversityManagementSystem.Core".
+Create a database named "UniversityManagementSystem.Identity".
 
 ### Step 7
 
-Run `dotnet ef database update` from the Core.WebApi Project.
+Run `dotnet ef database update` from the Identity Project.
 
 ### Step 8
 
-Run the IdentityServer Project.
+Run the Identity Project.
 
 ### Step 9
 
@@ -50,7 +50,7 @@ Make a note of the "access_token" in the response.
 
 ### Step 11
 
-Run the Core and/or Membership WebApi Projects.
+Run the Apps.WebApi Project.
 
 ### Step 12
 

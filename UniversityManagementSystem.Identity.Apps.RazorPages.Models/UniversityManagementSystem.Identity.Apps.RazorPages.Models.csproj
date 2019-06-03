@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="IdentityServer4">
+        <Version>3.0.0-preview3.4</Version>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>

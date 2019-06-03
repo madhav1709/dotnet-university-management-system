@@ -1,0 +1,15 @@
+@page
+@model RedirectModel
+
+@{
+    ViewData["Title"] = "Redirect";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>You are now being redirected back to the application.</h4>
+
+<hr/>
+
+<p>Once this is complete, you may close this tab. If you are not redirected, please click <a href="@Model.RedirectUrl">here</a>.</p>
+
+<meta content="5;url=@Model.RedirectUrl" http-equiv="refresh"/>

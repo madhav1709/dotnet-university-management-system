@@ -20,7 +20,7 @@ Create a database named "UniversityManagementSystem".
 
 ### Step 5
 
-Run `dotnet ef database update` from the Apps.WebApi Project.
+Run `dotnet ef database update --context UniversityManagementSystem.Data.Contexts.ApplicationDbContext --startup-project ..\UniversityManagementSystem.Apps.WebApi` from the Data Project.
 
 ### Step 6
 
@@ -28,11 +28,11 @@ Create a database named "UniversityManagementSystem.Identity".
 
 ### Step 7
 
-Run `dotnet ef database update` from the Identity Project.
+Run `dotnet ef database update --context UniversityManagementSystem.Identity.Data.Contexts.ApplicationDbContext --startup-project ..\UniversityManagementSystem.Identity.Apps.RazorPages` from the Identity.Data Project.
 
 ### Step 8
 
-Run the Identity Project.
+Run the Identity.Apps.RazorPages Project.
 
 ### Step 9
 

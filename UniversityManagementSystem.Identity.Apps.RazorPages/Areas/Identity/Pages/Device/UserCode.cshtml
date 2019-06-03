@@ -1,0 +1,19 @@
+@page
+@model UserCodeModel
+
+@{
+    ViewData["Title"] = "User code";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Enter the code displayed on your device.</h4>
+
+<hr/>
+
+<form method="post">
+    <label asp-for="Input.UserCode"></label>
+    <input asp-for="Input.UserCode"/>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

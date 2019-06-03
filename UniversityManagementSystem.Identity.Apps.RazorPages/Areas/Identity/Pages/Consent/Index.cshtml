@@ -1,0 +1,108 @@
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Consent";
+}
+
+@if (Model.ClientLogoUrl != null)
+{
+    <img alt="Client Logo" src="@Model.ClientLogoUrl"/>
+}
+
+<h1>
+    @Model.ClientName
+    <small>is requesting your permission</small>
+</h1>
+
+<form asp-route-ReturnUrl="@Model.ReturnUrl" method="post">
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <strong>Error</strong>
+            <div asp-validation-summary="All" class="danger"></div>
+        </div>
+    }
+
+    <div class="row">
+        @if (Model.IdentityScopes.Any())
+        {
+            <div class="col-md-6">
+                <section>
+                    <div class="form-group">
+                        <h4>Personal information</h4>
+
+                        <hr/>
+
+                        @foreach (var scope in Model.IdentityScopes)
+                        {
+                            <partial name="_ScopePartial" model="@scope"/>
+                        }
+                    </div>
+                </section>
+            </div>
+        }
+
+        @if (Model.ResourceScopes.Any())
+        {
+            <div class="col-md-6">
+                <section>
+                    <div class="form-group">
+                        <h4>Application access</h4>
+
+                        <hr/>
+
+                        @foreach (var scope in Model.ResourceScopes)
+                        {
+                            <partial name="_ScopePartial" model="@scope"/>
+                        }
+                    </div>
+                </section>
+            </div>
+        }
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <section>
+                <div class="form-group">
+                    <div class="radio">
+                        <label asp-for="Input.Button">
+                            <input asp-for="Input.Button" checked id="yes" type="radio" value="yes"/>
+                            Yes, allow
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label asp-for="Input.Button">
+                            <input asp-for="Input.Button" id="no" type="radio" value="no"/>
+                            No, do not allow
+                        </label>
+                    </div>
+                </div>
+
+                @if (Model.AllowRememberConsent)
+                {
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Input.RememberConsent">
+                                <input asp-for="Input.RememberConsent"/>
+                                @Html.DisplayNameFor(model => model.Input.RememberConsent)
+                            </label>
+                        </div>
+                    </div>
+                }
+
+                <button class="btn btn-primary" type="submit">Submit</button>
+
+                @if (Model.ClientUrl != null)
+                {
+                    <a class="btn btn-default" target="_blank" href="@Model.ClientUrl">
+                        <strong>@Model.ClientName</strong>
+                    </a>
+                }
+            </section>
+        </div>
+    </div>
+</form>

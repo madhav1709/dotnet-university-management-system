@@ -1,0 +1,24 @@
+@model ScopePartialModel
+
+<div class="checkbox">
+    <label for="scopes_@Model.Name" title="@Model.Description">
+        <input checked="@Model.Checked" disabled="@Model.Required" id="scopes_@Model.Name" name="Input.ScopesConsented" type="checkbox" value="@Model.Name"/>
+
+        @if (Model.Required)
+        {
+            <input name="Input.ScopesConsented" type="hidden" value="@Model.Name"/>
+        }
+
+        @Model.DisplayName
+
+        @if (Model.Required)
+        {
+            <em>(required)</em>
+        }
+
+        @if (Model.Emphasize)
+        {
+            <i class="material-icons">warning</i>
+        }
+    </label>
+</div>

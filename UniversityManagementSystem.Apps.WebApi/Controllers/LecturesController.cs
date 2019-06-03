@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class LecturesController : ControllerBase<Lecture, LectureViewModel>
+    public class LecturesController : ControllerBase<Lecture, Models.Lecture>
     {
         public LecturesController(ILectureService lectureService, IMapper mapper) : base(lectureService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Lectures
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<LectureViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Lecture>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{lectureId}", Name = "GetLectureByLectureId")]
-        public override async Task<ActionResult<LectureViewModel>> GetAsync(int lectureId)
+        public override async Task<ActionResult<Models.Lecture>> GetAsync(int lectureId)
         {
             return await base.GetAsync(lectureId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] LectureViewModel lectureViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Lecture model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var lecture = Mapper.Map<Lecture>(lectureViewModel);
+            var entity = Mapper.Map<Lecture>(model);
 
-            await LectureService.AddAsync(lecture);
+            await LectureService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetLectureByLectureId",
-                new {lectureId = lecture.Id},
-                Mapper.Map<LectureViewModel>(lecture)
+                new {lectureId = entity.Id},
+                Mapper.Map<Models.Lecture>(entity)
             );
         }
 
         [HttpPut("{lectureId}")]
-        public override async Task<ActionResult> PutAsync(int lectureId, [FromBody] LectureViewModel lectureViewModel)
+        public override async Task<ActionResult> PutAsync(int lectureId, [FromBody] Models.Lecture model)
         {
-            if (lectureId != lectureViewModel.Id) return BadRequest();
+            if (lectureId != model.Id) return BadRequest();
 
-            return await base.PutAsync(lectureId, lectureViewModel);
+            return await base.PutAsync(lectureId, model);
         }
 
         [HttpDelete("{lectureId}")]

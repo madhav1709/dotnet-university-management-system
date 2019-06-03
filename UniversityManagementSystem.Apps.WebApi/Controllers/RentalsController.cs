@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class RentalsController : ControllerBase<Rental, RentalViewModel>
+    public class RentalsController : ControllerBase<Rental, Models.Rental>
     {
         public RentalsController(IRentalService rentalService, IMapper mapper) : base(rentalService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Rentals
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<RentalViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Rental>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{rentalId}", Name = "GetRentalByRentalId")]
-        public override async Task<ActionResult<RentalViewModel>> GetAsync(int rentalId)
+        public override async Task<ActionResult<Models.Rental>> GetAsync(int rentalId)
         {
             return await base.GetAsync(rentalId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] RentalViewModel rentalViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Rental model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var rental = Mapper.Map<Rental>(rentalViewModel);
+            var entity = Mapper.Map<Rental>(model);
 
-            await RentalService.AddAsync(rental);
+            await RentalService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetRentalByRentalId",
-                new {rentalId = rental.Id},
-                Mapper.Map<RentalViewModel>(rental)
+                new {rentalId = entity.Id},
+                Mapper.Map<Models.Rental>(entity)
             );
         }
 
         [HttpPut("{rentalId}")]
-        public override async Task<ActionResult> PutAsync(int rentalId, [FromBody] RentalViewModel rentalViewModel)
+        public override async Task<ActionResult> PutAsync(int rentalId, [FromBody] Models.Rental model)
         {
-            if (rentalId != rentalViewModel.Id) return BadRequest();
+            if (rentalId != model.Id) return BadRequest();
 
-            return await base.PutAsync(rentalId, rentalViewModel);
+            return await base.PutAsync(rentalId, model);
         }
 
         [HttpDelete("{rentalId}")]

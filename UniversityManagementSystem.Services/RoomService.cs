@@ -17,6 +17,7 @@ namespace UniversityManagementSystem.Services
         protected override DbSet<Room> DbSet => Context.Rooms;
 
         protected override IQueryable<Room> Queryable => DbSet
-            .Include(room => room.Campus);
+            .Include(room => room.Building)
+            .ThenInclude(building => building.Campus);
     }
 }

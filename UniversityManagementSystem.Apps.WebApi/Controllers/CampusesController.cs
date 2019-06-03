@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class CampusesController : ControllerBase<Campus, CampusViewModel>
+    public class CampusesController : ControllerBase<Campus, Models.Campus>
     {
         public CampusesController(ICampusService campusService, IMapper mapper) : base(campusService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Campuses
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<CampusViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Campus>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{campusId}", Name = "GetCampusByCampusId")]
-        public override async Task<ActionResult<CampusViewModel>> GetAsync(int campusId)
+        public override async Task<ActionResult<Models.Campus>> GetAsync(int campusId)
         {
             return await base.GetAsync(campusId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] CampusViewModel campusViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Campus model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var campus = Mapper.Map<Campus>(campusViewModel);
+            var entity = Mapper.Map<Campus>(model);
 
-            await CampusService.AddAsync(campus);
+            await CampusService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetCampusByCampusId",
-                new {campusId = campus.Id},
-                Mapper.Map<CampusViewModel>(campus)
+                new {campusId = entity.Id},
+                Mapper.Map<Models.Campus>(entity)
             );
         }
 
         [HttpPut("{campusId}")]
-        public override async Task<ActionResult> PutAsync(int campusId, [FromBody] CampusViewModel campusViewModel)
+        public override async Task<ActionResult> PutAsync(int campusId, [FromBody] Models.Campus model)
         {
-            if (campusId != campusViewModel.Id) return BadRequest();
+            if (campusId != model.Id) return BadRequest();
 
-            return await base.PutAsync(campusId, campusViewModel);
+            return await base.PutAsync(campusId, model);
         }
 
         [HttpDelete("{campusId}")]

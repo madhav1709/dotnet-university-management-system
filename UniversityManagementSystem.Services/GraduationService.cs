@@ -18,6 +18,7 @@ namespace UniversityManagementSystem.Services
 
         protected override IQueryable<Graduation> Queryable => DbSet
             .Include(graduation => graduation.Course)
-            .ThenInclude(course => course.Campus);
+            .ThenInclude(course => course.School)
+            .ThenInclude(school => school.Campus);
     }
 }

@@ -17,7 +17,8 @@ namespace UniversityManagementSystem.Services
         protected override DbSet<Enrolment> DbSet => Context.Enrolments;
 
         protected override IQueryable<Enrolment> Queryable => DbSet
-            .Include(enrolment => enrolment.Run)
-            .ThenInclude(run => run.Module);
+            .Include(enrolment => enrolment.Course)
+            .ThenInclude(course => course.School)
+            .ThenInclude(school => school.Campus);
     }
 }

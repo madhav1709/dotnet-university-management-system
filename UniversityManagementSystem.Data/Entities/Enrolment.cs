@@ -6,7 +6,7 @@ namespace UniversityManagementSystem.Data.Entities
 
         public string StudentId { get; set; }
 
-        public int RunId { get; set; }
-        public Run Run { get; set; }
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
     }
 }

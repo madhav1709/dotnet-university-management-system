@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.ComponentModel.Annotations">
+        <Version>4.6.0-preview5.19224.8</Version>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>

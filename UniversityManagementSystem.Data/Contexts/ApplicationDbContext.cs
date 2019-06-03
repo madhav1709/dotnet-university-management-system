@@ -13,6 +13,8 @@ namespace UniversityManagementSystem.Data.Contexts
 
         public DbSet<Book> Books { get; set; }
 
+        public DbSet<Building> Buildings { get; set; }
+
         public DbSet<Campus> Campuses { get; set; }
 
         public DbSet<Course> Courses { get; set; }
@@ -25,10 +27,6 @@ namespace UniversityManagementSystem.Data.Contexts
 
         public DbSet<Graduation> Graduations { get; set; }
 
-        public DbSet<Hall> Halls { get; set; }
-
-        public DbSet<HallStudent> HallStudents { get; set; }
-
         public DbSet<Lecture> Lectures { get; set; }
 
         public DbSet<Library> Libraries { get; set; }
@@ -37,6 +35,10 @@ namespace UniversityManagementSystem.Data.Contexts
 
         public DbSet<Module> Modules { get; set; }
 
+        public DbSet<Refectory> Refectories { get; set; }
+
+        public DbSet<RunStudent> RunStudents { get; set; }
+
         public DbSet<Rental> Rentals { get; set; }
 
         public DbSet<Result> Results { get; set; }
@@ -44,6 +46,8 @@ namespace UniversityManagementSystem.Data.Contexts
         public DbSet<Room> Rooms { get; set; }
 
         public DbSet<Run> Runs { get; set; }
+
+        public DbSet<School> Schools { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,11 +61,11 @@ namespace UniversityManagementSystem.Data.Contexts
             modelBuilder.Entity<CourseStudent>()
                 .HasKey(courseStudent => new {courseStudent.CourseId, courseStudent.StudentId});
 
-            modelBuilder.Entity<HallStudent>()
-                .HasKey(hallStudent => new {hallStudent.HallId, hallStudent.StudentId});
-
             modelBuilder.Entity<LibraryBook>()
                 .HasKey(libraryBook => new {libraryBook.LibraryId, libraryBook.BookId});
+
+            modelBuilder.Entity<RunStudent>()
+                .HasKey(runStudent => new {runStudent.RunId, runStudent.StudentId});
 
             #endregion
 

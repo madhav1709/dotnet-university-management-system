@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class EnrolmentsController : ControllerBase<Enrolment, EnrolmentViewModel>
+    public class EnrolmentsController : ControllerBase<Enrolment, Models.Enrolment>
     {
         public EnrolmentsController(IEnrolmentService enrolmentService, IMapper mapper) : base(enrolmentService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Enrolments
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<EnrolmentViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Enrolment>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{enrolmentId}", Name = "GetEnrolmentByEnrolmentId")]
-        public override async Task<ActionResult<EnrolmentViewModel>> GetAsync(int enrolmentId)
+        public override async Task<ActionResult<Models.Enrolment>> GetAsync(int enrolmentId)
         {
             return await base.GetAsync(enrolmentId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] EnrolmentViewModel enrolmentViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Enrolment model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var enrolment = Mapper.Map<Enrolment>(enrolmentViewModel);
+            var entity = Mapper.Map<Enrolment>(model);
 
-            await EnrolmentService.AddAsync(enrolment);
+            await EnrolmentService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetEnrolmentByEnrolmentId",
-                new {enrolmentId = enrolment.Id},
-                Mapper.Map<EnrolmentViewModel>(enrolment)
+                new {enrolmentId = entity.Id},
+                Mapper.Map<Models.Enrolment>(entity)
             );
         }
 
         [HttpPut("{enrolmentId}")]
-        public override async Task<ActionResult> PutAsync(int enrolmentId, [FromBody] EnrolmentViewModel enrolmentViewModel)
+        public override async Task<ActionResult> PutAsync(int enrolmentId, [FromBody] Models.Enrolment model)
         {
-            if (enrolmentId != enrolmentViewModel.Id) return BadRequest();
+            if (enrolmentId != model.Id) return BadRequest();
 
-            return await base.PutAsync(enrolmentId, enrolmentViewModel);
+            return await base.PutAsync(enrolmentId, model);
         }
 
         [HttpDelete("{enrolmentId}")]

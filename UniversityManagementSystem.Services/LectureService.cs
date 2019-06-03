@@ -20,6 +20,7 @@ namespace UniversityManagementSystem.Services
             .Include(lecture => lecture.Run)
             .ThenInclude(run => run.Module)
             .Include(lecture => lecture.Room)
-            .ThenInclude(room => room.Campus);
+            .ThenInclude(room => room.Building)
+            .ThenInclude(building => building.Campus);
     }
 }

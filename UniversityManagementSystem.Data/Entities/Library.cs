@@ -6,8 +6,8 @@ namespace UniversityManagementSystem.Data.Entities
     {
         public string Name { get; set; }
 
-        public int CampusId { get; set; }
-        public Campus Campus { get; set; }
+        public int BuildingId { get; set; }
+        public Building Building { get; set; }
 
         public ICollection<LibraryBook> LibraryBooks { get; set; }
     }

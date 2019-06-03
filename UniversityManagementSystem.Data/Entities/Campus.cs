@@ -6,12 +6,8 @@ namespace UniversityManagementSystem.Data.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public ICollection<Building> Buildings { get; set; }
 
-        public ICollection<Hall> Halls { get; set; }
-
-        public ICollection<Library> Libraries { get; set; }
-
-        public ICollection<Room> Rooms { get; set; }
+        public ICollection<School> Schools { get; set; }
     }
 }

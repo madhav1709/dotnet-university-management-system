@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Reflection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using UniversityManagementSystem.Apps.WebApi.Mappings;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using UniversityManagementSystem.Apps.WebApi.Profiles;
 using UniversityManagementSystem.Data.Contexts;
 using UniversityManagementSystem.Services;
+using static Microsoft.OpenApi.Models.SecuritySchemeType;
 
 namespace UniversityManagementSystem.Apps.WebApi
 {
@@ -28,124 +36,63 @@ namespace UniversityManagementSystem.Apps.WebApi
         {
             services.AddControllers();
 
-            services.AddScoped<IAssignmentService, AssignmentService>();
-            services.AddScoped<IBookService, BookService>();
-            services.AddScoped<ICampusService, CampusService>();
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<IEnrolmentService, EnrolmentService>();
-            services.AddScoped<IGraduationService, GraduationService>();
-            services.AddScoped<IHallService, HallService>();
-            services.AddScoped<ILectureService, LectureService>();
-            services.AddScoped<ILibraryService, LibraryService>();
-            services.AddScoped<IModuleService, ModuleService>();
-            services.AddScoped<IRentalService, RentalService>();
-            services.AddScoped<IResultService, ResultService>();
-            services.AddScoped<IRoomService, RoomService>();
-            services.AddScoped<IRunService, RunService>();
-
-            ConfigureAuthentication(services);
-
-            ConfigureAutoMapper(services);
-
-            ConfigureContexts(services);
-
-            ConfigureSwagger(services);
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-            else
-                app.UseHsts();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseHttpsRedirection();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint(
-                    "/swagger/v1/swagger.json",
-                    "University Management System API V1"
-                );
-            });
-
-            app.UseEndpoints(builder => builder.MapControllers());
-        }
-
-        private void ConfigureAuthentication(IServiceCollection services)
-        {
-            services.AddAuthentication(options =>
+            void AuthenticationOptionsAction(AuthenticationOptions options)
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            }
+
+            void CorsOptionsAction(CorsOptions options)
             {
-                options.Audience = "https://localhost:5001";
+                options.AddDefaultPolicy(CorsPolicyAction);
+            }
+
+            void CorsPolicyAction(CorsPolicyBuilder builder)
+            {
+                builder.WithOrigins("https://localhost:5002").WithHeaders("Authorization");
+            }
+
+            void DbContextOptionsAction(DbContextOptionsBuilder builder)
+            {
+                var connectionString = Configuration.GetConnectionString("Default");
+
+                builder.UseSqlServer(connectionString, SqlServerOptionsAction);
+            }
+
+            void JwtBearerOptionsAction(JwtBearerOptions options)
+            {
+                options.Audience = "api";
                 options.Authority = "https://localhost:5000";
-            });
-        }
+            }
 
-        private void ConfigureAutoMapper(IServiceCollection services)
-        {
-            Mapper.Initialize(expression =>
+            void SqlServerOptionsAction(SqlServerDbContextOptionsBuilder builder)
             {
-                expression.AddProfile<AssignmentMappingProfile>();
-                expression.AddProfile<BookMappingProfile>();
-                expression.AddProfile<CampusMappingProfile>();
-                expression.AddProfile<CourseMappingProfile>();
-                expression.AddProfile<EnrolmentMappingProfile>();
-                expression.AddProfile<GraduationMappingProfile>();
-                expression.AddProfile<HallMappingProfile>();
-                expression.AddProfile<LectureMappingProfile>();
-                expression.AddProfile<LibraryMappingProfile>();
-                expression.AddProfile<ModuleMappingProfile>();
-                expression.AddProfile<RentalMappingProfile>();
-                expression.AddProfile<ResultMappingProfile>();
-                expression.AddProfile<RoomMappingProfile>();
-                expression.AddProfile<RunMappingProfile>();
-            });
+                var migrationsAssembly = typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddAutoMapper(typeof(Startup));
-        }
+                builder.MigrationsAssembly(migrationsAssembly);
+            }
 
-        private void ConfigureContexts(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(ConfigureDbContext);
-        }
-
-        private void ConfigureDbContext(DbContextOptionsBuilder builder)
-        {
-            var connectionString = Configuration.GetConnectionString("Default");
-
-            builder.UseSqlServer(connectionString);
-        }
-
-        private void ConfigureSwagger(IServiceCollection services)
-        {
-            services.AddSwaggerGen(options =>
+            void SwaggerGenOptionsAction(SwaggerGenOptions options)
             {
                 var bearerAuthSecurityScheme = new OpenApiSecurityScheme
                 {
                     Scheme = "bearer",
-                    Type = SecuritySchemeType.Http
+                    Type = Http
                 };
                 var openIdSecurityScheme = new OpenApiSecurityScheme
                 {
                     OpenIdConnectUrl = new Uri("https://localhost:5000/.well-known/openid-configuration"),
-                    Type = SecuritySchemeType.OpenIdConnect
+                    Type = OpenIdConnect
                 };
 
                 options.AddSecurityDefinition("BearerAuth", bearerAuthSecurityScheme);
                 options.AddSecurityDefinition("OpenID", openIdSecurityScheme);
 
-                var info = new OpenApiInfo {Title = "University Management System API", Version = "v1"};
+                var info = new OpenApiInfo
+                {
+                    Title = "University Management System",
+                    Version = "v1"
+                };
 
                 options.SwaggerDoc("v1", info);
 
@@ -176,7 +123,73 @@ namespace UniversityManagementSystem.Apps.WebApi
                 };
 
                 options.AddSecurityRequirement(securityRequirement);
-            });
+            }
+
+            services.AddScoped<IAssignmentService, AssignmentService>()
+                .AddScoped<IBookService, BookService>()
+                .AddScoped<IBuildingService, BuildingService>()
+                .AddScoped<ICampusService, CampusService>()
+                .AddScoped<ICourseService, CourseService>()
+                .AddScoped<IEnrolmentService, EnrolmentService>()
+                .AddScoped<IGraduationService, GraduationService>()
+                .AddScoped<ILectureService, LectureService>()
+                .AddScoped<ILibraryService, LibraryService>()
+                .AddScoped<IModuleService, ModuleService>()
+                .AddScoped<IRefectoryService, RefectoryService>()
+                .AddScoped<IRentalService, RentalService>()
+                .AddScoped<IResultService, ResultService>()
+                .AddScoped<IRoomService, RoomService>()
+                .AddScoped<IRunService, RunService>()
+                .AddScoped<ISchoolService, SchoolService>();
+
+            services.AddAuthentication(AuthenticationOptionsAction)
+                .AddJwtBearer(JwtBearerOptionsAction);
+
+            services.AddAutoMapper(typeof(AssignmentProfile).GetTypeInfo().Assembly);
+
+            services.AddDbContext<ApplicationDbContext>(DbContextOptionsAction);
+
+            services.AddCors(CorsOptionsAction);
+
+            services.AddSwaggerGen(SwaggerGenOptionsAction);
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            void EndpointRouteAction(IEndpointRouteBuilder builder)
+            {
+                builder.MapControllers();
+            }
+
+            void SwaggerUiOptionsAction(SwaggerUIOptions options)
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "University Management System V1");
+            }
+
+            if (env.IsDevelopment())
+            {
+                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseCors();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(SwaggerUiOptionsAction);
+
+            app.UseEndpoints(EndpointRouteAction);
         }
     }
 }

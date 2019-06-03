@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class LibrariesController : ControllerBase<Library, LibraryViewModel>
+    public class LibrariesController : ControllerBase<Library, Models.Library>
     {
         public LibrariesController(ILibraryService libraryService, IMapper mapper) : base(libraryService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Libraries
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<LibraryViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Library>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{libraryId}", Name = "GetLibraryByLibraryId")]
-        public override async Task<ActionResult<LibraryViewModel>> GetAsync(int libraryId)
+        public override async Task<ActionResult<Models.Library>> GetAsync(int libraryId)
         {
             return await base.GetAsync(libraryId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] LibraryViewModel libraryViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Library model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var library = Mapper.Map<Library>(libraryViewModel);
+            var entity = Mapper.Map<Library>(model);
 
-            await LibraryService.AddAsync(library);
+            await LibraryService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetLibraryByLibraryId",
-                new {libraryId = library.Id},
-                Mapper.Map<LibraryViewModel>(library)
+                new {libraryId = entity.Id},
+                Mapper.Map<Models.Library>(entity)
             );
         }
 
         [HttpPut("{libraryId}")]
-        public override async Task<ActionResult> PutAsync(int libraryId, [FromBody] LibraryViewModel libraryViewModel)
+        public override async Task<ActionResult> PutAsync(int libraryId, [FromBody] Models.Library model)
         {
-            if (libraryId != libraryViewModel.Id) return BadRequest();
+            if (libraryId != model.Id) return BadRequest();
 
-            return await base.PutAsync(libraryId, libraryViewModel);
+            return await base.PutAsync(libraryId, model);
         }
 
         [HttpDelete("{libraryId}")]

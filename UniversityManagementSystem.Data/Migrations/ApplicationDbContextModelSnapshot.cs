@@ -15,7 +15,7 @@ namespace UniversityManagementSystem.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview.18572.1")
+                .HasAnnotation("ProductVersion", "3.0.0-preview5.19227.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -57,6 +57,24 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.ToTable("Books");
             });
 
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Building", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
+                        SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<int>("CampusId");
+
+                b.Property<string>("Name");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CampusId");
+
+                b.ToTable("Buildings");
+            });
+
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Campus", b =>
             {
                 b.Property<int>("Id")
@@ -78,13 +96,13 @@ namespace UniversityManagementSystem.Data.Migrations
                     .HasAnnotation("SqlServer:ValueGenerationStrategy",
                         SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<int>("CampusId");
-
                 b.Property<string>("Name");
+
+                b.Property<int>("SchoolId");
 
                 b.HasKey("Id");
 
-                b.HasIndex("CampusId");
+                b.HasIndex("SchoolId");
 
                 b.ToTable("Courses");
             });
@@ -120,7 +138,7 @@ namespace UniversityManagementSystem.Data.Migrations
                     .HasAnnotation("SqlServer:ValueGenerationStrategy",
                         SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<int>("RunId");
+                b.Property<int>("CourseId");
 
                 b.Property<string>("StudentId");
 
@@ -128,7 +146,7 @@ namespace UniversityManagementSystem.Data.Migrations
 
                 b.HasKey("Id");
 
-                b.HasIndex("RunId");
+                b.HasIndex("CourseId");
 
                 b.ToTable("Enrolments");
             });
@@ -151,35 +169,6 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasIndex("CourseId");
 
                 b.ToTable("Graduations");
-            });
-
-            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Hall", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
-                        SqlServerValueGenerationStrategy.IdentityColumn);
-
-                b.Property<int>("CampusId");
-
-                b.Property<string>("Name");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CampusId");
-
-                b.ToTable("Halls");
-            });
-
-            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.HallStudent", b =>
-            {
-                b.Property<int>("HallId");
-
-                b.Property<string>("StudentId");
-
-                b.HasKey("HallId", "StudentId");
-
-                b.ToTable("HallStudents");
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Lecture", b =>
@@ -213,13 +202,13 @@ namespace UniversityManagementSystem.Data.Migrations
                     .HasAnnotation("SqlServer:ValueGenerationStrategy",
                         SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<int>("CampusId");
+                b.Property<int>("BuildingId");
 
                 b.Property<string>("Name");
 
                 b.HasKey("Id");
 
-                b.HasIndex("CampusId");
+                b.HasIndex("BuildingId");
 
                 b.ToTable("Libraries");
             });
@@ -251,6 +240,24 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasKey("Id");
 
                 b.ToTable("Modules");
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Refectory", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
+                        SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<int>("BuildingId");
+
+                b.Property<string>("Name");
+
+                b.HasKey("Id");
+
+                b.HasIndex("BuildingId");
+
+                b.ToTable("Refectories");
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Rental", b =>
@@ -306,13 +313,13 @@ namespace UniversityManagementSystem.Data.Migrations
                     .HasAnnotation("SqlServer:ValueGenerationStrategy",
                         SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<int>("CampusId");
+                b.Property<int>("BuildingId");
 
                 b.Property<string>("Name");
 
                 b.HasKey("Id");
 
-                b.HasIndex("CampusId");
+                b.HasIndex("BuildingId");
 
                 b.ToTable("Rooms");
             });
@@ -323,6 +330,8 @@ namespace UniversityManagementSystem.Data.Migrations
                     .ValueGeneratedOnAdd()
                     .HasAnnotation("SqlServer:ValueGenerationStrategy",
                         SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<string>("LecturerId");
 
                 b.Property<int>("ModuleId");
 
@@ -337,20 +346,60 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.ToTable("Runs");
             });
 
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.RunStudent", b =>
+            {
+                b.Property<int>("RunId");
+
+                b.Property<string>("StudentId");
+
+                b.HasKey("RunId", "StudentId");
+
+                b.ToTable("RunStudents");
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.School", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy",
+                        SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<int>("CampusId");
+
+                b.Property<string>("Name");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CampusId");
+
+                b.ToTable("Schools");
+            });
+
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Assignment", b =>
             {
                 b.HasOne("UniversityManagementSystem.Data.Entities.Run", "Run")
                     .WithMany("Assignments")
                     .HasForeignKey("RunId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Building", b =>
+            {
+                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
+                    .WithMany("Buildings")
+                    .HasForeignKey("CampusId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Course", b =>
             {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
-                    .WithMany("Courses")
-                    .HasForeignKey("CampusId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne("UniversityManagementSystem.Data.Entities.School", "School")
+                    .WithMany()
+                    .HasForeignKey("SchoolId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.CourseModule", b =>
@@ -358,12 +407,14 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Course", "Course")
                     .WithMany("CourseModules")
                     .HasForeignKey("CourseId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
                 b.HasOne("UniversityManagementSystem.Data.Entities.Module", "Module")
                     .WithMany("CourseModules")
                     .HasForeignKey("ModuleId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.CourseStudent", b =>
@@ -371,15 +422,17 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Course", "Course")
                     .WithMany("CourseStudents")
                     .HasForeignKey("CourseId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Enrolment", b =>
             {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Run", "Run")
-                    .WithMany("Enrolments")
-                    .HasForeignKey("RunId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne("UniversityManagementSystem.Data.Entities.Course", "Course")
+                    .WithMany()
+                    .HasForeignKey("CourseId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Graduation", b =>
@@ -387,23 +440,8 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Course", "Course")
                     .WithMany("Graduations")
                     .HasForeignKey("CourseId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Hall", b =>
-            {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
-                    .WithMany("Halls")
-                    .HasForeignKey("CampusId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.HallStudent", b =>
-            {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Hall", "Hall")
-                    .WithMany("HallStudents")
-                    .HasForeignKey("HallId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Lecture", b =>
@@ -411,20 +449,23 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Room", "Room")
                     .WithMany("Lectures")
                     .HasForeignKey("RoomId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
                 b.HasOne("UniversityManagementSystem.Data.Entities.Run", "Run")
                     .WithMany("Lectures")
                     .HasForeignKey("RunId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Library", b =>
             {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
+                b.HasOne("UniversityManagementSystem.Data.Entities.Building", "Building")
                     .WithMany("Libraries")
-                    .HasForeignKey("CampusId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey("BuildingId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.LibraryBook", b =>
@@ -432,12 +473,23 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Book", "Book")
                     .WithMany("LibraryBooks")
                     .HasForeignKey("BookId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
                 b.HasOne("UniversityManagementSystem.Data.Entities.Library", "Library")
                     .WithMany("LibraryBooks")
                     .HasForeignKey("LibraryId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Refectory", b =>
+            {
+                b.HasOne("UniversityManagementSystem.Data.Entities.Building", "Building")
+                    .WithMany("Refectories")
+                    .HasForeignKey("BuildingId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Rental", b =>
@@ -445,7 +497,8 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Book", "Book")
                     .WithMany("Rentals")
                     .HasForeignKey("BookId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Result", b =>
@@ -453,15 +506,17 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Assignment", "Assignment")
                     .WithMany("Results")
                     .HasForeignKey("AssignmentId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Room", b =>
             {
-                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
+                b.HasOne("UniversityManagementSystem.Data.Entities.Building", "Building")
                     .WithMany("Rooms")
-                    .HasForeignKey("CampusId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey("BuildingId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 
             modelBuilder.Entity("UniversityManagementSystem.Data.Entities.Run", b =>
@@ -469,7 +524,26 @@ namespace UniversityManagementSystem.Data.Migrations
                 b.HasOne("UniversityManagementSystem.Data.Entities.Module", "Module")
                     .WithMany("Runs")
                     .HasForeignKey("ModuleId")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.RunStudent", b =>
+            {
+                b.HasOne("UniversityManagementSystem.Data.Entities.Run", "Run")
+                    .WithMany("RunStudents")
+                    .HasForeignKey("RunId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("UniversityManagementSystem.Data.Entities.School", b =>
+            {
+                b.HasOne("UniversityManagementSystem.Data.Entities.Campus", "Campus")
+                    .WithMany("Schools")
+                    .HasForeignKey("CampusId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
 #pragma warning restore 612, 618
         }

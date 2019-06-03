@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper">
+        <Version>8.1.0</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UniversityManagementSystem.Apps.WebApi.Models\UniversityManagementSystem.Apps.WebApi.Models.csproj" />
+      <ProjectReference Include="..\UniversityManagementSystem.Data\UniversityManagementSystem.Data.csproj" />
+    </ItemGroup>
+
+</Project>

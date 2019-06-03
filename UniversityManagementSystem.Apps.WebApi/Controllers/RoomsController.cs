@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class RoomsController : ControllerBase<Room, RoomViewModel>
+    public class RoomsController : ControllerBase<Room, Models.Room>
     {
         public RoomsController(IRoomService roomService, IMapper mapper) : base(roomService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Rooms
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<RoomViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Room>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{roomId}", Name = "GetRoomByRoomId")]
-        public override async Task<ActionResult<RoomViewModel>> GetAsync(int roomId)
+        public override async Task<ActionResult<Models.Room>> GetAsync(int roomId)
         {
             return await base.GetAsync(roomId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] RoomViewModel roomViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Room model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var room = Mapper.Map<Room>(roomViewModel);
+            var entity = Mapper.Map<Room>(model);
 
-            await RoomService.AddAsync(room);
+            await RoomService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetRoomByRoomId",
-                new {roomId = room.Id},
-                Mapper.Map<RoomViewModel>(room)
+                new {roomId = entity.Id},
+                Mapper.Map<Models.Room>(entity)
             );
         }
 
         [HttpPut("{roomId}")]
-        public override async Task<ActionResult> PutAsync(int roomId, [FromBody] RoomViewModel roomViewModel)
+        public override async Task<ActionResult> PutAsync(int roomId, [FromBody] Models.Room model)
         {
-            if (roomId != roomViewModel.Id) return BadRequest();
+            if (roomId != model.Id) return BadRequest();
 
-            return await base.PutAsync(roomId, roomViewModel);
+            return await base.PutAsync(roomId, model);
         }
 
         [HttpDelete("{roomId}")]

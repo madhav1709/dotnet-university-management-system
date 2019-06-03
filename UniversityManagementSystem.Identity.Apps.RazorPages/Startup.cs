@@ -137,7 +137,7 @@ namespace UniversityManagementSystem.Identity.Apps.RazorPages
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            void EndpointRouteBuilderAction(IEndpointRouteBuilder builder)
+            void EndpointRouteAction(IEndpointRouteBuilder builder)
             {
                 builder.MapRazorPages();
             }
@@ -164,7 +164,7 @@ namespace UniversityManagementSystem.Identity.Apps.RazorPages
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(EndpointRouteBuilderAction);
+            app.UseEndpoints(EndpointRouteAction);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class GraduationsController : ControllerBase<Graduation, GraduationViewModel>
+    public class GraduationsController : ControllerBase<Graduation, Models.Graduation>
     {
         public GraduationsController(IGraduationService graduationService, IMapper mapper) : base(graduationService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Graduations
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<GraduationViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Graduation>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{graduationId}", Name = "GetGraduationByGraduationId")]
-        public override async Task<ActionResult<GraduationViewModel>> GetAsync(int graduationId)
+        public override async Task<ActionResult<Models.Graduation>> GetAsync(int graduationId)
         {
             return await base.GetAsync(graduationId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] GraduationViewModel graduationViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Graduation model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var graduation = Mapper.Map<Graduation>(graduationViewModel);
+            var entity = Mapper.Map<Graduation>(model);
 
-            await GraduationService.AddAsync(graduation);
+            await GraduationService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetGraduationByGraduationId",
-                new {graduationId = graduation.Id},
-                Mapper.Map<GraduationViewModel>(graduation)
+                new {graduationId = entity.Id},
+                Mapper.Map<Models.Graduation>(entity)
             );
         }
 
         [HttpPut("{graduationId}")]
-        public override async Task<ActionResult> PutAsync(int graduationId, [FromBody] GraduationViewModel graduationViewModel)
+        public override async Task<ActionResult> PutAsync(int graduationId, [FromBody] Models.Graduation model)
         {
-            if (graduationId != graduationViewModel.Id) return BadRequest();
+            if (graduationId != model.Id) return BadRequest();
 
-            return await base.PutAsync(graduationId, graduationViewModel);
+            return await base.PutAsync(graduationId, model);
         }
 
         [HttpDelete("{graduationId}")]

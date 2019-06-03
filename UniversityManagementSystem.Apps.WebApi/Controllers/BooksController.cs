@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class BooksController : ControllerBase<Book, BookViewModel>
+    public class BooksController : ControllerBase<Book, Models.Book>
     {
         public BooksController(IBookService bookService, IMapper mapper) : base(bookService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Books
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<BookViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Book>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{bookId}", Name = "GetBookByBookId")]
-        public override async Task<ActionResult<BookViewModel>> GetAsync(int bookId)
+        public override async Task<ActionResult<Models.Book>> GetAsync(int bookId)
         {
             return await base.GetAsync(bookId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] BookViewModel bookViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Book model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var book = Mapper.Map<Book>(bookViewModel);
+            var entity = Mapper.Map<Book>(model);
 
-            await BookService.AddAsync(book);
+            await BookService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetBookByBookId",
-                new {bookId = book.Id},
-                Mapper.Map<BookViewModel>(book)
+                new {bookId = entity.Id},
+                Mapper.Map<Models.Book>(entity)
             );
         }
 
         [HttpPut("{bookId}")]
-        public override async Task<ActionResult> PutAsync(int bookId, [FromBody] BookViewModel bookViewModel)
+        public override async Task<ActionResult> PutAsync(int bookId, [FromBody] Models.Book model)
         {
-            if (bookId != bookViewModel.Id) return BadRequest();
+            if (bookId != model.Id) return BadRequest();
 
-            return await base.PutAsync(bookId, bookViewModel);
+            return await base.PutAsync(bookId, model);
         }
 
         [HttpDelete("{bookId}")]

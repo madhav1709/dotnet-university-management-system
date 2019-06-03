@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UniversityManagementSystem.Apps.WebApi.ViewModels;
 using UniversityManagementSystem.Data.Entities;
 using UniversityManagementSystem.Services;
 
@@ -13,7 +12,7 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
-    public class ResultsController : ControllerBase<Result, ResultViewModel>
+    public class ResultsController : ControllerBase<Result, Models.Result>
     {
         public ResultsController(IResultService resultService, IMapper mapper) : base(resultService)
         {
@@ -28,39 +27,39 @@ namespace UniversityManagementSystem.Apps.WebApi.Controllers
         #region /Results
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<ResultViewModel>>> GetAsync()
+        public override async Task<ActionResult<IEnumerable<Models.Result>>> GetAsync()
         {
             return await base.GetAsync();
         }
 
         [HttpGet("{resultId}", Name = "GetResultByResultId")]
-        public override async Task<ActionResult<ResultViewModel>> GetAsync(int resultId)
+        public override async Task<ActionResult<Models.Result>> GetAsync(int resultId)
         {
             return await base.GetAsync(resultId);
         }
 
         [HttpPost]
-        public override async Task<ActionResult> PostAsync([FromBody] ResultViewModel resultViewModel)
+        public override async Task<ActionResult> PostAsync([FromBody] Models.Result model)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = Mapper.Map<Result>(resultViewModel);
+            var entity = Mapper.Map<Result>(model);
 
-            await ResultService.AddAsync(result);
+            await ResultService.AddAsync(entity);
 
             return CreatedAtRoute(
                 "GetResultByResultId",
-                new {resultId = result.Id},
-                Mapper.Map<ResultViewModel>(result)
+                new {resultId = entity.Id},
+                Mapper.Map<Models.Result>(entity)
             );
         }
 
         [HttpPut("{resultId}")]
-        public override async Task<ActionResult> PutAsync(int resultId, [FromBody] ResultViewModel resultViewModel)
+        public override async Task<ActionResult> PutAsync(int resultId, [FromBody] Models.Result model)
         {
-            if (resultId != resultViewModel.Id) return BadRequest();
+            if (resultId != model.Id) return BadRequest();
 
-            return await base.PutAsync(resultId, resultViewModel);
+            return await base.PutAsync(resultId, model);
         }
 
         [HttpDelete("{resultId}")]

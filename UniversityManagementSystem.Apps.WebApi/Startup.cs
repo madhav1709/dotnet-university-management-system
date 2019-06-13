@@ -38,8 +38,7 @@ namespace UniversityManagementSystem.Apps.WebApi
 
             void AuthenticationOptionsAction(AuthenticationOptions options)
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }
 
             void CorsOptionsAction(CorsOptions options)

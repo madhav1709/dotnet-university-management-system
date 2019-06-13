@@ -13,19 +13,19 @@
           <Version>3.0.0-preview3.4</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook">
-            <Version>3.0.0-preview5-19227-01</Version>
+            <Version>3.0.0-preview6.19307.2</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore">
-            <Version>3.0.0-preview5-19227-01</Version>
+            <Version>3.0.0-preview6.19307.2</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI">
-          <Version>3.0.0-preview5-19227-01</Version>
+          <Version>3.0.0-preview6.19307.2</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-            <Version>3.0.0-preview5.19227.1</Version>
+            <Version>3.0.0-preview6.19304.10</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
-            <Version>3.0.0-preview5.19227.1</Version>
+            <Version>3.0.0-preview6.19304.10</Version>
         </PackageReference>
     </ItemGroup>
 

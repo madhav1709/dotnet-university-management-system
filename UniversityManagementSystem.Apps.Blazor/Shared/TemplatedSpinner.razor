@@ -1,0 +1,18 @@
+<div class="align-items-center d-flex justify-content-center">
+    @if (Title != null)
+    {
+        <strong class="mr-auto">@Title</strong>
+    }
+
+    <div aria-hidden="true" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+@functions
+{
+
+    [Parameter]
+    private string Title { get; set; }
+
+}

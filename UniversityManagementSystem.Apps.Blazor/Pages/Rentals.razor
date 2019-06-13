@@ -1,0 +1,32 @@
+@page "/Rentals"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Rentals">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-plus" href="Rentals/0">Create</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+<TemplatedTable Loader="@GetRentals">
+    <HeaderContent>
+        <th>Checkout Date</th>
+        <th>Return Date</th>
+    </HeaderContent>
+
+    <ItemContent Context="rental">
+        <td>@rental.CheckoutDate.ToString()</td>
+        <td>@rental.ReturnDate.ToString()</td>
+        <td><a href="Rentals/@rental.Id"><span class="mdi mdi-pencil"></span></a></td>
+    </ItemContent>
+</TemplatedTable>
+
+@functions
+{
+
+    private async Task<IEnumerable<Models.Rental>> GetRentals()
+    {
+        return await HttpClient.GetJsonAsync<IEnumerable<Models.Rental>>("Rentals");
+    }
+
+}

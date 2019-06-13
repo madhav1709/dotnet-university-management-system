@@ -1,0 +1,90 @@
+@page "/Enrolments/{EnrolmentId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create an enrolment." Title="Enrolment">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Enrolments">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="year">Year</label>
+            <InputNumber class="form-control" id="year" bind-Value="@Model.Year"/>
+            <ValidationMessage For="@(() => Model.Year)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="student">Student</label>
+            <InputText class="form-control" id="student" bind-Value="@Model.StudentId"/>
+            <ValidationMessage For="@(() => Model.StudentId)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="course">Course</label>
+            <InputSelect class="form-control" id="course" bind-Value="@Model.Course">
+                @foreach (var course in Courses)
+                {
+                    <option value="@course">@course.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Course)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int EnrolmentId { get; set; }
+
+    private bool IsCreating => EnrolmentId <= 0;
+
+    private bool IsLoading => Model == null || Courses == null;
+
+    private bool IsUpdating => EnrolmentId > 0;
+
+    private Models.Enrolment Model { get; set; }
+    
+    private IEnumerable<Models.Course> Courses { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Courses = await HttpClient.GetJsonAsync<IEnumerable<Models.Course>>("Courses");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Enrolment>($"Enrolments/{EnrolmentId}");
+        }
+        else
+        {
+            Model = new Models.Enrolment();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Enrolments/{EnrolmentId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Enrolments", Model);
+        }
+    }
+
+}

@@ -5,6 +5,11 @@ namespace UniversityManagementSystem.Apps.WebApi.Models
 {
     public class Assignment
     {
+        public Assignment()
+        {
+            Deadline = DateTimeOffset.Now;
+        }
+
         public int Id { get; set; }
 
         [Required] public string Title { get; set; }

@@ -1,0 +1,96 @@
+@page "/Runs/{RunId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a run." Title="Run">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Runs">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="year">Year</label>
+            <InputNumber class="form-control" id="year" bind-Value="@Model.Year"/>
+            <ValidationMessage For="@(() => Model.Year)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="semester">Semester</label>
+            <InputText class="form-control" id="semester" bind-Value="@Model.Semester"/>
+            <ValidationMessage For="@(() => Model.Semester)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="lecturer">Lecturer</label>
+            <InputText class="form-control" id="lecturer" bind-Value="@Model.LecturerId"/>
+            <ValidationMessage For="@(() => Model.LecturerId)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="module">Module</label>
+            <InputSelect class="form-control" id="module" bind-Value="@Model.Module">
+                @foreach (var module in Modules)
+                {
+                    <option value="@module">@module.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Module)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int RunId { get; set; }
+
+    private bool IsCreating => RunId <= 0;
+
+    private bool IsLoading => Model == null || Modules == null;
+
+    private bool IsUpdating => RunId > 0;
+
+    private Models.Run Model { get; set; }
+    
+    private IEnumerable<Models.Module> Modules { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Modules = await HttpClient.GetJsonAsync<IEnumerable<Models.Module>>("Modules");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Run>($"Runs/{RunId}");
+        }
+        else
+        {
+            Model = new Models.Run();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Runs/{RunId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Runs", Model);
+        }
+    }
+
+}

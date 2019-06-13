@@ -1,0 +1,96 @@
+@page "/Rentals/{RentalId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a rental." Title="Rental">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Rentals">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="checkoutDate">Checkout Date</label>
+            <InputDate class="form-control" id="checkoutDate" bind-Value="@Model.CheckoutDate"/>
+            <ValidationMessage For="@(() => Model.CheckoutDate)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="returnDate">Return Date</label>
+            <InputDate class="form-control" id="returnDate" bind-Value="@Model.ReturnDate"/>
+            <ValidationMessage For="@(() => Model.ReturnDate)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="student">Student</label>
+            <InputText class="form-control" id="student" bind-Value="@Model.StudentId"/>
+            <ValidationMessage For="@(() => Model.StudentId)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="book">Book</label>
+            <InputSelect class="form-control" id="book" bind-Value="@Model.Book">
+                @foreach (var book in Books)
+                {
+                    <option value="@book">@book.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Book)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int RentalId { get; set; }
+
+    private bool IsCreating => RentalId <= 0;
+
+    private bool IsLoading => Model == null || Books == null;
+
+    private bool IsUpdating => RentalId > 0;
+
+    private Models.Rental Model { get; set; }
+    
+    private IEnumerable<Models.Book> Books { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Books = await HttpClient.GetJsonAsync<IEnumerable<Models.Book>>("Books");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Rental>($"Rentals/{RentalId}");
+        }
+        else
+        {
+            Model = new Models.Rental();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Rentals/{RentalId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Rentals", Model);
+        }
+    }
+
+}

@@ -1,0 +1,32 @@
+@page "/Results"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Results">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-plus" href="Results/0">Create</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+<TemplatedTable Loader="@GetResults">
+    <HeaderContent>
+        <th>Checkout Date</th>
+        <th>Return Date</th>
+    </HeaderContent>
+
+    <ItemContent Context="result">
+        <td>@result.Grade</td>
+        <td>@result.Feedback</td>
+        <td><a href="Results/@result.Id"><span class="mdi mdi-pencil"></span></a></td>
+    </ItemContent>
+</TemplatedTable>
+
+@functions
+{
+
+    private async Task<IEnumerable<Models.Result>> GetResults()
+    {
+        return await HttpClient.GetJsonAsync<IEnumerable<Models.Result>>("Results");
+    }
+
+}

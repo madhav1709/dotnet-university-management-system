@@ -1,0 +1,22 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+
+@if (AuthenticationState.IsLoggedIn)
+{
+    @Body
+}
+else
+{
+    <TemplatedHeader Subtitle="To continue, please login to the application." Title="You're logged out">
+        <ToolbarContent>
+            <button class="btn btn-primary mdi mdi-login" onclick="@AuthenticationState.LoginAsync">Login</button>
+        </ToolbarContent>
+    </TemplatedHeader>
+}
+
+@functions {
+
+    [CascadingParameter]
+    private AuthenticationState AuthenticationState { get; set; }
+
+}

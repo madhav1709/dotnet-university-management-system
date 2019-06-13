@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.JSInterop">
+        <Version>3.0.0-preview5.19227.9</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Models\UniversityManagementSystem.Apps.Blazor.Models.csproj" />
+    </ItemGroup>
+
+</Project>

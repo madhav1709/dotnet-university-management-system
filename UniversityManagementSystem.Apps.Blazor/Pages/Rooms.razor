@@ -1,0 +1,30 @@
+@page "/Rooms"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Rooms">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-plus" href="Rooms/0">Create</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+<TemplatedTable Loader="@GetRooms">
+    <HeaderContent>
+        <th>Name</th>
+    </HeaderContent>
+
+    <ItemContent Context="room">
+        <td>@room.Name</td>
+        <td><a href="Rooms/@room.Id"><span class="mdi mdi-pencil"></span></a></td>
+    </ItemContent>
+</TemplatedTable>
+
+@functions
+{
+
+    private async Task<IEnumerable<Models.Room>> GetRooms()
+    {
+        return await HttpClient.GetJsonAsync<IEnumerable<Models.Room>>("Rooms");
+    }
+
+}

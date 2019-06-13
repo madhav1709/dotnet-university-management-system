@@ -1,0 +1,52 @@
+﻿<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="mr-auto navbar-nav">
+        <li class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Home</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="About">About</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="Help">Help</NavLink>
+        </li>
+        <li class="dropdown nav-item">
+            <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle nav-link" data-toggle="dropdown" id="navbarDropdown" role="button">More</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <NavLink class="dropdown-item" href="Assignments">Assignments</NavLink>
+                <NavLink class="dropdown-item" href="Books">Books</NavLink>
+                <NavLink class="dropdown-item" href="Buildings">Buildings</NavLink>
+                <NavLink class="dropdown-item" href="Campuses">Campuses</NavLink>
+                <NavLink class="dropdown-item" href="Courses">Courses</NavLink>
+                <NavLink class="dropdown-item" href="Enrolments">Enrolments</NavLink>
+                <NavLink class="dropdown-item" href="Graduations">Graduations</NavLink>
+                <NavLink class="dropdown-item" href="Lectures">Lectures</NavLink>
+                <NavLink class="dropdown-item" href="Libraries">Libraries</NavLink>
+                <NavLink class="dropdown-item" href="Modules">Modules</NavLink>
+                <NavLink class="dropdown-item" href="Refectories">Refectories</NavLink>
+                <NavLink class="dropdown-item" href="Rentals">Rentals</NavLink>
+                <NavLink class="dropdown-item" href="Results">Results</NavLink>
+                <NavLink class="dropdown-item" href="Rooms">Rooms</NavLink>
+                <NavLink class="dropdown-item" href="Runs">Runs</NavLink>
+                <NavLink class="dropdown-item" href="Schools">Schools</NavLink>
+            </div>
+        </li>
+    </ul>
+    <section class="authentication-info">
+        @if (AuthenticationState.IsLoggedIn)
+        {
+            <a class="btn btn-outline-light mr-sm-1" href="https://localhost:5000/Identity/Account/Manage">@AuthenticationState.Username</a>
+            <button class="btn btn-outline-light" onclick="@AuthenticationState.LogoutAsync">Logout</button>
+        }
+        else
+        {
+            <button class="btn btn-outline-light" onclick="@AuthenticationState.LoginAsync">Login</button>
+        }
+    </section>
+</div>
+
+@functions {
+
+    [CascadingParameter]
+    private AuthenticationState AuthenticationState { get; set; }
+
+}

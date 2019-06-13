@@ -1,9 +1,15 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace UniversityManagementSystem.Apps.WebApi.Models
 {
     public class Run
     {
+        public Run()
+        {
+            Year = DateTimeOffset.Now.Year;
+        }
+
         public int Id { get; set; }
 
         [Required] public int Year { get; set; }

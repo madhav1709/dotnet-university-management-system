@@ -1,0 +1,33 @@
+@inject IAuthenticationService AuthenticationService
+
+<CascadingValue Value="@(this)">
+    @ChildContent
+</CascadingValue>
+
+@functions {
+
+    [Parameter]
+    private RenderFragment ChildContent { get; set; }
+
+    public static bool IsLoggedIn => !string.IsNullOrEmpty(Username);
+
+    public static string Username { get; private set; }
+
+    protected override async Task OnInitAsync()
+    {
+        var user = await AuthenticationService.GetUserAsync();
+
+        Username = user?.Profile.PreferredUsername;
+    }
+
+    public async Task LoginAsync()
+    {
+        await AuthenticationService.LoginAsync();
+    }
+
+    public async Task LogoutAsync()
+    {
+        await AuthenticationService.LogoutAsync();
+    }
+
+}

@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Apps.WebApi.Profiles", "UniversityManagementSystem.Apps.WebApi.Profiles\UniversityManagementSystem.Apps.WebApi.Profiles.csproj", "{A37D5777-348A-4C72-B98E-C5C74307261A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Apps.Blazor.Components", "UniversityManagementSystem.Apps.Blazor.Components\UniversityManagementSystem.Apps.Blazor.Components.csproj", "{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{A37D5777-348A-4C72-B98E-C5C74307261A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A37D5777-348A-4C72-B98E-C5C74307261A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A37D5777-348A-4C72-B98E-C5C74307261A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

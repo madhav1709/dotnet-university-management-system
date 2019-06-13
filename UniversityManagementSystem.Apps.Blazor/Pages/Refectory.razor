@@ -1,0 +1,84 @@
+@page "/Refectories/{RefectoryId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a refectory." Title="Refectory">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Refectories">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText class="form-control" id="name" bind-Value="@Model.Name"/>
+            <ValidationMessage For="@(() => Model.Name)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="building">Building</label>
+            <InputSelect class="form-control" id="building" bind-Value="@Model.Building">
+                @foreach (var building in Buildings)
+                {
+                    <option value="@building">@building.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Building)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int RefectoryId { get; set; }
+
+    private bool IsCreating => RefectoryId <= 0;
+
+    private bool IsLoading => Model == null || Buildings == null;
+
+    private bool IsUpdating => RefectoryId > 0;
+
+    private Models.Refectory Model { get; set; }
+    
+    private IEnumerable<Models.Building> Buildings { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Buildings = await HttpClient.GetJsonAsync<IEnumerable<Models.Building>>("Buildings");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Refectory>($"Refectories/{RefectoryId}");
+        }
+        else
+        {
+            Model = new Models.Refectory();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Refectories/{RefectoryId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Refectories", Model);
+        }
+    }
+
+}

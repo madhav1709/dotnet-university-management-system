@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>University Management System</title>
+    <base href="/" />
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.7.1/oidc-client.min.js" integrity="sha256-9DaoB/bDcJC0Iw7MyVlpoTFGi7hAxNfj5Sg6OjEElEU=" crossorigin="anonymous"></script>
+<script>
+  new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(user => {
+    console.log(user);
+  }).catch(error => {
+    console.error(error);
+  }).finally(() => {
+    const redirectUrl = localStorage.getItem('redirectUrl');
+    
+    if (redirectUrl != null) localStorage.removeItem('redirectUrl');
+    
+    window.location.href = redirectUrl != null ? redirectUrl : "/";
+  });
+</script>
+</body>
+</html>

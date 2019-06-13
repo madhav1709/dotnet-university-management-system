@@ -1,0 +1,84 @@
+@page "/Buildings/{BuildingId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a building." Title="Building">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Buildings">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText class="form-control" id="name" bind-Value="@Model.Name"/>
+            <ValidationMessage For="@(() => Model.Name)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="campus">Campus</label>
+            <InputSelect class="form-control" id="campus" bind-Value="@Model.Campus">
+                @foreach (var campus in Campuses)
+                {
+                    <option value="@campus">@campus.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Campus)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int BuildingId { get; set; }
+
+    private bool IsCreating => BuildingId <= 0;
+
+    private bool IsLoading => Model == null || Campuses == null;
+
+    private bool IsUpdating => BuildingId > 0;
+
+    private Models.Building Model { get; set; }
+    
+    private IEnumerable<Models.Campus> Campuses { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Campuses = await HttpClient.GetJsonAsync<IEnumerable<Models.Campus>>("Campuses");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Building>($"Buildings/{BuildingId}");
+        }
+        else
+        {
+            Model = new Models.Building();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Buildings/{BuildingId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Buildings", Model);
+        }
+    }
+
+}

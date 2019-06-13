@@ -1,0 +1,75 @@
+@page "/Modules/{ModuleId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a module." Title="Module">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Modules">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="code">Code</label>
+            <InputText class="form-control" id="code" bind-Value="@Model.Code"/>
+            <ValidationMessage For="@(() => Model.Code)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="title">Title</label>
+            <InputText class="form-control" id="title" bind-Value="@Model.Title"/>
+            <ValidationMessage For="@(() => Model.Title)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int ModuleId { get; set; }
+
+    private bool IsCreating => ModuleId <= 0;
+
+    private bool IsLoading => Model == null;
+
+    private bool IsUpdating => ModuleId > 0;
+
+    private Models.Module Model { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Module>($"Modules/{ModuleId}");
+        }
+        else
+        {
+            Model = new Models.Module();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Modules/{ModuleId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Modules", Model);
+        }
+    }
+
+}

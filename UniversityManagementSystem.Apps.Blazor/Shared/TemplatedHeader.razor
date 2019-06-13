@@ -1,0 +1,27 @@
+<header class="header">
+    <div class="align-items-center d-flex justify-content-between">
+        <h1>@Title</h1>
+
+        <div class="btn-toolbar">
+            @ToolbarContent
+        </div>
+    </div>
+
+    <h4>@Subtitle</h4>
+
+    <hr/>
+</header>
+
+@functions
+{
+
+    [Parameter]
+    private RenderFragment ToolbarContent { get; set; }
+
+    [Parameter]
+    private string Subtitle { get; set; }
+
+    [Parameter]
+    private string Title { get; set; }
+
+}

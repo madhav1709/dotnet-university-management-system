@@ -1,0 +1,30 @@
+@page "/Graduations"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Graduations">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-plus" href="Graduations/0">Create</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+<TemplatedTable Loader="@GetGraduations">
+    <HeaderContent>
+        <th>Year</th>
+    </HeaderContent>
+
+    <ItemContent Context="graduation">
+        <td>@graduation.Year.ToString()</td>
+        <td><a href="Graduations/@graduation.Id"><span class="mdi mdi-pencil"></span></a></td>
+    </ItemContent>
+</TemplatedTable>
+
+@functions
+{
+
+    private async Task<IEnumerable<Models.Graduation>> GetGraduations()
+    {
+        return await HttpClient.GetJsonAsync<IEnumerable<Models.Graduation>>("Graduations");
+    }
+
+}

@@ -1,0 +1,96 @@
+@page "/Results/{ResultId:int}"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Use the form below to update or create a result." Title="Result">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-cancel" href="Results">Cancel</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+@if (IsLoading)
+{
+    <TemplatedSpinner/>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            <label for="grade">Grade</label>
+            <InputNumber class="form-control" id="grade" bind-Value="@Model.Grade"/>
+            <ValidationMessage For="@(() => Model.Grade)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="feedback">Feedback</label>
+            <InputTextArea class="form-control" id="feedback" bind-Value="@Model.Feedback"/>
+            <ValidationMessage For="@(() => Model.Feedback)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="student">Student</label>
+            <InputText class="form-control" id="student" bind-Value="@Model.StudentId"/>
+            <ValidationMessage For="@(() => Model.StudentId)"/>
+        </div>
+
+        <div class="form-group">
+            <label for="assignment">Assignment</label>
+            <InputSelect class="form-control" id="assignment" bind-Value="@Model.Assignment">
+                @foreach (var assignment in Assignments)
+                {
+                    <option value="@assignment">@assignment.ToString()</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Model.Assignment)"/>
+        </div>
+
+        <button class="btn btn-primary mdi mdi-content-save" type="submit">Save</button>
+    </EditForm>
+}
+
+@functions
+{
+
+    [Parameter]
+    private int ResultId { get; set; }
+
+    private bool IsCreating => ResultId <= 0;
+
+    private bool IsLoading => Model == null || Assignments == null;
+
+    private bool IsUpdating => ResultId > 0;
+
+    private Models.Result Model { get; set; }
+    
+    private IEnumerable<Models.Assignment> Assignments { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        Assignments = await HttpClient.GetJsonAsync<IEnumerable<Models.Assignment>>("Assignments");
+        
+        if (IsUpdating)
+        {
+            Model = await HttpClient.GetJsonAsync<Models.Result>($"Results/{ResultId}");
+        }
+        else
+        {
+            Model = new Models.Result();
+        }
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (IsUpdating)
+        {
+            await HttpClient.PutJsonAsync($"Results/{ResultId}", Model);
+        }
+        else
+        {
+            await HttpClient.PostJsonAsync("Results", Model);
+        }
+    }
+
+}

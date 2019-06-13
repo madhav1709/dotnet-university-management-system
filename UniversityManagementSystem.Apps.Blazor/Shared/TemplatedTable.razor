@@ -1,0 +1,69 @@
+@typeparam TItem
+
+@if (Items == null)
+{
+    if (LoadingContent != null)
+    {
+        @LoadingContent
+    }
+    else
+    {
+        <TemplatedSpinner/>
+    }
+}
+else if (Items.Count() == 0)
+{
+    if (EmptyContent != null)
+    {
+        @EmptyContent
+    }
+    else
+    {
+        <strong>No items found</strong>
+    }
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            @HeaderContent
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Items)
+        {
+            <tr>
+                @ItemContent(item)
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@functions
+{
+
+    [Parameter]
+    private RenderFragment EmptyContent { get; set; }
+
+    [Parameter]
+    private RenderFragment HeaderContent { get; set; }
+
+    [Parameter]
+    private RenderFragment<TItem> ItemContent { get; set; }
+
+    [Parameter]
+    private RenderFragment LoadingContent { get; set; }
+
+    [Parameter]
+    private Func<Task<IEnumerable<TItem>>> Loader { get; set; }
+
+    private IEnumerable<TItem> Items { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Items = await Loader();
+    }
+
+}

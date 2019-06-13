@@ -1,0 +1,30 @@
+@page "/Refectories"
+@layout AuthenticationGuard
+@inject HttpClient HttpClient
+
+<TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Refectories">
+    <ToolbarContent>
+        <a class="btn btn-primary mdi mdi-plus" href="Refectories/0">Create</a>
+    </ToolbarContent>
+</TemplatedHeader>
+
+<TemplatedTable Loader="@GetRefectories">
+    <HeaderContent>
+        <th>Name</th>
+    </HeaderContent>
+
+    <ItemContent Context="refectory">
+        <td>@refectory.Name</td>
+        <td><a href="Refectories/@refectory.Id"><span class="mdi mdi-pencil"></span></a></td>
+    </ItemContent>
+</TemplatedTable>
+
+@functions
+{
+
+    private async Task<IEnumerable<Models.Refectory>> GetRefectories()
+    {
+        return await HttpClient.GetJsonAsync<IEnumerable<Models.Refectory>>("Refectories");
+    }
+
+}

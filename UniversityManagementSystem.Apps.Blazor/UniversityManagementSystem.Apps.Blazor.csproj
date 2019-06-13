@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+        <RestoreAdditionalProjectSources>
+            https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
+            https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
+        </RestoreAdditionalProjectSources>
+        <LangVersion>7.3</LangVersion>
+        <RazorLangVersion>3.0</RazorLangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01" />
+        <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview5-19227-01" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Components\UniversityManagementSystem.Apps.Blazor.Components.csproj" />
+        <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Handlers\UniversityManagementSystem.Apps.Blazor.Handlers.csproj" />
+        <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Models\UniversityManagementSystem.Apps.Blazor.Models.csproj" />
+        <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Services\UniversityManagementSystem.Apps.Blazor.Services.csproj" />
+        <ProjectReference Include="..\UniversityManagementSystem.Apps.WebApi.Models\UniversityManagementSystem.Apps.WebApi.Models.csproj" />
+    </ItemGroup>
+
+</Project>

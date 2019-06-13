@@ -20,13 +20,13 @@ else
 
         <div class="form-group">
             <label for="name">Name</label>
-            <InputText class="form-control" id="name" bind-Value="@Model.Name"/>
+            <InputText class="form-control" id="name" @bind-Value="@Model.Name"/>
             <ValidationMessage For="@(() => Model.Name)"/>
         </div>
 
         <div class="form-group">
             <label for="campus">Campus</label>
-            <InputSelect class="form-control" id="campus" bind-Value="@Model.Campus">
+            <InputSelect class="form-control" id="campus" @bind-Value="@Model.Campus">
                 @foreach (var campus in Campuses)
                 {
                     <option value="@campus">@campus.ToString()</option>

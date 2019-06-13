@@ -20,19 +20,19 @@ else
 
         <div class="form-group">
             <label for="year">Year</label>
-            <InputNumber class="form-control" id="year" bind-Value="@Model.Year"/>
+            <InputNumber class="form-control" id="year" @bind-Value="@Model.Year"/>
             <ValidationMessage For="@(() => Model.Year)"/>
         </div>
 
         <div class="form-group">
             <label for="student">Student</label>
-            <InputText class="form-control" id="student" bind-Value="@Model.StudentId"/>
+            <InputText class="form-control" id="student" @bind-Value="@Model.StudentId"/>
             <ValidationMessage For="@(() => Model.StudentId)"/>
         </div>
 
         <div class="form-group">
             <label for="course">Course</label>
-            <InputSelect class="form-control" id="course" bind-Value="@Model.Course">
+            <InputSelect class="form-control" id="course" @bind-Value="@Model.Course">
                 @foreach (var course in Courses)
                 {
                     <option value="@course">@course.ToString()</option>

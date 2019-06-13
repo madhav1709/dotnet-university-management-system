@@ -20,25 +20,25 @@ else
 
         <div class="form-group">
             <label for="grade">Grade</label>
-            <InputNumber class="form-control" id="grade" bind-Value="@Model.Grade"/>
+            <InputNumber class="form-control" id="grade" @bind-Value="@Model.Grade"/>
             <ValidationMessage For="@(() => Model.Grade)"/>
         </div>
 
         <div class="form-group">
             <label for="feedback">Feedback</label>
-            <InputTextArea class="form-control" id="feedback" bind-Value="@Model.Feedback"/>
+            <InputTextArea class="form-control" id="feedback" @bind-Value="@Model.Feedback"/>
             <ValidationMessage For="@(() => Model.Feedback)"/>
         </div>
 
         <div class="form-group">
             <label for="student">Student</label>
-            <InputText class="form-control" id="student" bind-Value="@Model.StudentId"/>
+            <InputText class="form-control" id="student" @bind-Value="@Model.StudentId"/>
             <ValidationMessage For="@(() => Model.StudentId)"/>
         </div>
 
         <div class="form-group">
             <label for="assignment">Assignment</label>
-            <InputSelect class="form-control" id="assignment" bind-Value="@Model.Assignment">
+            <InputSelect class="form-control" id="assignment" @bind-Value="@Model.Assignment">
                 @foreach (var assignment in Assignments)
                 {
                     <option value="@assignment">@assignment.ToString()</option>

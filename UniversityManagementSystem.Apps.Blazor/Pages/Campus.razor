@@ -20,7 +20,7 @@ else
 
         <div class="form-group">
             <label for="name">Name</label>
-            <InputText class="form-control" id="name" bind-Value="@Model.Name"/>
+            <InputText class="form-control" id="name" @bind-Value="@Model.Name"/>
             <ValidationMessage For="@(() => Model.Name)"/>
         </div>
 

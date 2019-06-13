@@ -20,13 +20,13 @@ else
 
         <div class="form-group">
             <label for="code">Code</label>
-            <InputText class="form-control" id="code" bind-Value="@Model.Code"/>
+            <InputText class="form-control" id="code" @bind-Value="@Model.Code"/>
             <ValidationMessage For="@(() => Model.Code)"/>
         </div>
 
         <div class="form-group">
             <label for="title">Title</label>
-            <InputText class="form-control" id="title" bind-Value="@Model.Title"/>
+            <InputText class="form-control" id="title" @bind-Value="@Model.Title"/>
             <ValidationMessage For="@(() => Model.Title)"/>
         </div>
 

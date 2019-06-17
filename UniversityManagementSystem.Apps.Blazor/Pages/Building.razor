@@ -1,5 +1,6 @@
 @page "/Buildings/{BuildingId:int}"
-@layout AuthenticationGuard
+@attribute [Authorize]
+@layout MainLayout
 @inject HttpClient HttpClient
 
 <TemplatedHeader Subtitle="Use the form below to update or create a building." Title="Building">

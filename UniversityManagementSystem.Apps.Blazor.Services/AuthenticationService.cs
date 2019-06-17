@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using UniversityManagementSystem.Apps.Blazor.Models;
-using static Microsoft.JSInterop.DotNetObjectRef;
+using static System.String;
+using static UniversityManagementSystem.Apps.Blazor.Models.User;
 
 namespace UniversityManagementSystem.Apps.Blazor.Services
 {
@@ -14,35 +15,21 @@ namespace UniversityManagementSystem.Apps.Blazor.Services
 
         private IJSRuntime JsRuntime { get; }
 
-        private TaskCompletionSource<User> TaskCompletionSource { get; set; }
-
         public async Task<User> GetUserAsync()
         {
-            TaskCompletionSource = new TaskCompletionSource<User>();
+            var json = await JsRuntime.InvokeAsync<string>("functions.getUser");
 
-            await JsRuntime.InvokeAsync<object>("user", Create(this));
-
-            var user = await TaskCompletionSource.Task;
-
-            return user;
+            return !IsNullOrEmpty(json) ? FromJson(json) : null;
         }
 
-        public async Task LoginAsync()
+        public async Task LoginAsync(string callback = "redirect")
         {
-            await JsRuntime.InvokeAsync<object>("login", Create(this));
+            await JsRuntime.InvokeAsync<string>("functions.login", callback);
         }
 
-        public async Task LogoutAsync()
+        public async Task LogoutAsync(string callback = "redirect")
         {
-            await JsRuntime.InvokeAsync<object>("logout", Create(this));
-        }
-
-        [JSInvokable]
-        public void OnUser(string json = null)
-        {
-            var user = json != null ? User.FromJson(json) : null;
-
-            TaskCompletionSource?.SetResult(user);
+            await JsRuntime.InvokeAsync<object>("functions.logout", callback);
         }
     }
 }

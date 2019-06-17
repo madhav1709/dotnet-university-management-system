@@ -7,8 +7,8 @@ namespace UniversityManagementSystem.Apps.Blazor.Services
     {
         Task<User> GetUserAsync();
 
-        Task LoginAsync();
+        Task LoginAsync(string callback = "redirect");
 
-        Task LogoutAsync();
+        Task LogoutAsync(string callback = "redirect");
     }
 }

@@ -1,7 +1,27 @@
-﻿<AuthenticationState>
+﻿@inject IAuthenticationService AuthenticationService
+
+<CascadingAuthenticationState>
     <Router AppAssembly="typeof(Program).Assembly">
         <NotFoundContent>
-            <p>Sorry, there's nothing at this address.</p>
+            <main class="body-content container mt-5">
+                <TemplatedHeader Subtitle="Sorry, there's nothing at this address." Title="You've gone wrong">
+                    <ToolbarContent>
+                        <a class="btn btn-primary mdi mdi-home" href="/">Home</a>
+                    </ToolbarContent>
+                </TemplatedHeader>
+            </main>
         </NotFoundContent>
+        <NotAuthorizedContent>
+            <main class="body-content container mt-5">
+                <TemplatedHeader Subtitle="To continue, please login to the application or request authority." Title="You're not authorized">
+                    <ToolbarContent>
+                        <button class="btn btn-primary mdi mdi-login" onclick="@(() => AuthenticationService.LoginAsync())">Login</button>
+                    </ToolbarContent>
+                </TemplatedHeader>
+            </main>
+        </NotAuthorizedContent>
+        <AuthorizingContent>
+            <TemplatedSpinner/>
+        </AuthorizingContent>
     </Router>
-</AuthenticationState>
+</CascadingAuthenticationState>

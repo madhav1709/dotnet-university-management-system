@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>University Management System</title>
+    <base href="/" />
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.7.1/oidc-client.min.js" integrity="sha256-9DaoB/bDcJC0Iw7MyVlpoTFGi7hAxNfj5Sg6OjEElEU=" crossorigin="anonymous"></script>
+<script>
+  const config = {
+    response_mode: 'query'
+  };
+
+  new Oidc.UserManager(config).signinSilentCallback();
+</script>
+</body>
+</html>

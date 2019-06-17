@@ -59,11 +59,13 @@ namespace UniversityManagementSystem.Identity.Apps.RazorPages
 
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:5002/callback.html"
+                        "https://localhost:5002/signin-callback-oidc/popup.html",
+                        "https://localhost:5002/signin-callback-oidc/redirect.html",
+                        "https://localhost:5002/signin-callback-oidc/silent.html"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:5002"
+                        "https://localhost:5002/signout-callback-oidc/index.html"
                     }
                 }
             };

@@ -1,5 +1,4 @@
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using UniversityManagementSystem.Apps.Blazor.Services;
@@ -7,9 +6,9 @@ using static System.Net.HttpStatusCode;
 
 namespace UniversityManagementSystem.Apps.Blazor.Handlers
 {
-    public class AuthenticationHandler : DelegatingHandler
+    public class AuthenticationDelegatingHandler : DelegatingHandler
     {
-        public AuthenticationHandler(IAuthenticationService authenticationService)
+        public AuthenticationDelegatingHandler(IAuthenticationService authenticationService)
         {
             AuthenticationService = authenticationService;
         }
@@ -21,10 +20,6 @@ namespace UniversityManagementSystem.Apps.Blazor.Handlers
             CancellationToken cancellationToken
         )
         {
-            var user = await AuthenticationService.GetUserAsync();
-
-            if (user != null) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", user.AccessToken);
-
             var response = await base.SendAsync(request, cancellationToken);
 
             if (response.StatusCode == Unauthorized) await AuthenticationService.LoginAsync();

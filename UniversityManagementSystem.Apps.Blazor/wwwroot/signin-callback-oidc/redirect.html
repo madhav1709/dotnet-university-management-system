@@ -9,16 +9,18 @@
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.7.1/oidc-client.min.js" integrity="sha256-9DaoB/bDcJC0Iw7MyVlpoTFGi7hAxNfj5Sg6OjEElEU=" crossorigin="anonymous"></script>
 <script>
-  new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(user => {
+  const config = {
+    response_mode: 'query'
+  };
+
+  new Oidc.UserManager(config).signinRedirectCallback().then(user => {
     console.log(user);
   }).catch(error => {
     console.error(error);
   }).finally(() => {
-    const redirectUrl = localStorage.getItem('redirectUrl');
-    
-    if (redirectUrl != null) localStorage.removeItem('redirectUrl');
-    
-    window.location.href = redirectUrl != null ? redirectUrl : "/";
+    const redirect = localStorage.getItem('oidc:redirect');
+
+    window.location.href = redirect != null ? redirect : '/';
   });
 </script>
 </body>

@@ -1,5 +1,6 @@
 @page "/Lectures"
-@layout AuthenticationGuard
+@attribute [Authorize]
+@layout MainLayout
 @inject HttpClient HttpClient
 
 <TemplatedHeader Subtitle="Click on an icon in the table below to view more info." Title="Lectures">

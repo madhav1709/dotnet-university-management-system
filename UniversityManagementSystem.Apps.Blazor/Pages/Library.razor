@@ -1,5 +1,6 @@
 @page "/Libraries/{LibraryId:int}"
-@layout AuthenticationGuard
+@attribute [Authorize]
+@layout MainLayout
 @inject HttpClient HttpClient
 
 <TemplatedHeader Subtitle="Use the form below to update or create a library." Title="Library">

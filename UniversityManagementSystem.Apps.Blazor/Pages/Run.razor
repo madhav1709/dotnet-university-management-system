@@ -1,5 +1,6 @@
 @page "/Runs/{RunId:int}"
-@layout AuthenticationGuard
+@attribute [Authorize]
+@layout MainLayout
 @inject HttpClient HttpClient
 
 <TemplatedHeader Subtitle="Use the form below to update or create a run." Title="Run">

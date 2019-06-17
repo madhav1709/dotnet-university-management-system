@@ -1,9 +1,11 @@
 using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Blazor.Http;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using UniversityManagementSystem.Apps.Blazor.Handlers;
+using UniversityManagementSystem.Apps.Blazor.Providers;
 using UniversityManagementSystem.Apps.Blazor.Services;
 
 namespace UniversityManagementSystem.Apps.Blazor
@@ -14,20 +16,25 @@ namespace UniversityManagementSystem.Apps.Blazor
         {
             HttpClient HttpClientImplementationFactory(IServiceProvider provider)
             {
-                var authenticationHandler = provider.GetRequiredService<AuthenticationHandler>();
-                authenticationHandler.InnerHandler = new WebAssemblyHttpMessageHandler();
+                var authenticationService = provider.GetRequiredService<IAuthenticationService>();
 
-                return new HttpClient(authenticationHandler)
+                var authenticationDelegatingHandler = new AuthenticationDelegatingHandler(authenticationService)
+                {
+                    InnerHandler = new WebAssemblyHttpMessageHandler()
+                };
+
+                return new HttpClient(authenticationDelegatingHandler)
                 {
                     BaseAddress = new Uri("https://localhost:5001/api/")
                 };
             }
 
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-
-            services.AddTransient<AuthenticationHandler>();
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 
             services.AddSingleton(HttpClientImplementationFactory);
+
+            services.AddAuthorizationCore();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

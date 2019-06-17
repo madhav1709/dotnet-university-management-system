@@ -1,4 +1,6 @@
-﻿<div class="collapse navbar-collapse" id="navbarSupportedContent">
+﻿@inject IAuthenticationService AuthenticationService
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="mr-auto navbar-nav">
         <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Home</NavLink>
@@ -32,22 +34,14 @@
         </li>
     </ul>
     <section class="authentication-info">
-        @if (AuthenticationState.IsLoggedIn)
-        {
-            <a class="btn btn-outline-light mr-sm-1" href="https://localhost:5000/Identity/Account/Manage">@AuthenticationState.Username</a>
-            <button class="btn btn-outline-light" onclick="@AuthenticationState.LogoutAsync">Logout</button>
-        }
-        else
-        {
-            <button class="btn btn-outline-light" onclick="@AuthenticationState.LoginAsync">Login</button>
-        }
+        <AuthorizeView>
+            <Authorized>
+                <a class="btn btn-outline-light mr-sm-1" href="https://localhost:5000/Identity/Account/Manage">@context.User.Identity.Name</a>
+                <button class="btn btn-outline-light" onclick="@(() => AuthenticationService.LogoutAsync())">Logout</button>
+            </Authorized>
+            <NotAuthorized>
+                <button class="btn btn-outline-light" onclick="@(() => AuthenticationService.LoginAsync())">Login</button>
+            </NotAuthorized>
+        </AuthorizeView>
     </section>
 </div>
-
-@code
-{
-
-    [CascadingParameter]
-    private AuthenticationState AuthenticationState { get; set; }
-
-}

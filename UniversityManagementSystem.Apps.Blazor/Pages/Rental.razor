@@ -1,5 +1,6 @@
 @page "/Rentals/{RentalId:int}"
-@layout AuthenticationGuard
+@attribute [Authorize]
+@layout MainLayout
 @inject HttpClient HttpClient
 
 <TemplatedHeader Subtitle="Use the form below to update or create a rental." Title="Rental">

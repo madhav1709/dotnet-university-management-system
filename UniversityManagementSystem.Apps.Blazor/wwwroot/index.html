@@ -10,12 +10,96 @@
     <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-    <app>Loading...</app>
+<app>Loading...</app>
 
-    <script src="/_framework/blazor.webassembly.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.7.1/oidc-client.min.js" integrity="sha256-9DaoB/bDcJC0Iw7MyVlpoTFGi7hAxNfj5Sg6OjEElEU=" crossorigin="anonymous"></script>
-    <script src="/js/site.js"></script>
+<script src="/_framework/blazor.webassembly.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.7.1/oidc-client.min.js" integrity="sha256-9DaoB/bDcJC0Iw7MyVlpoTFGi7hAxNfj5Sg6OjEElEU=" crossorigin="anonymous"></script>
+<script src="/js/site.js"></script>
+
+<script>
+  const config = {
+    authority: 'https://localhost:5000',
+    client_id: 'blazor',
+    redirect_uri: 'https://localhost:5002/signin-callback-oidc/redirect.html',
+    popup_redirect_uri: 'https://localhost:5002/signin-callback-oidc/popup.html',
+    silent_redirect_uri: 'https://localhost:5002/signin-callback-oidc/silent.html',
+    response_type: 'code',
+    scope: 'openid profile api',
+    post_logout_redirect_uri: 'https://localhost:5002/signout-callback-oidc/index.html',
+
+    automaticSilentRenew: true
+  };
+
+  Oidc.Log.logger = console;
+
+  let userManager = new Oidc.UserManager(config);
+
+  const registerEvents = (authenticationStateProvider) => {
+    const onAuthenticationStateChanged = async (event) => {
+      await authenticationStateProvider.invokeMethodAsync('OnAuthenticationStateChanged', event);
+    };
+
+    userManager.events.addUserLoaded(() => onAuthenticationStateChanged('userLoaded'));
+    userManager.events.addUserUnloaded(() => onAuthenticationStateChanged('userUnloaded'));
+    userManager.events.addAccessTokenExpired(() => onAuthenticationStateChanged('accessTokenExpired'));
+    userManager.events.addSilentRenewError(() => onAuthenticationStateChanged('silentRenewError'));
+    userManager.events.addUserSignedOut(() => onAuthenticationStateChanged('userSignedOut'));
+  };
+
+  const getUser = async () => {
+    const user = await userManager.getUser();
+
+    return JSON.stringify(user);
+  };
+
+  const login = async (callback) => {
+    switch (callback) {
+      case 'popup':
+        const popupUser = await userManager.signinPopup();
+
+        return JSON.stringify(popupUser);
+      case 'redirect':
+        localStorage.setItem('oidc:redirect', window.location.href);
+
+        await userManager.signinRedirect();
+
+        break;
+      case 'silent':
+        const silentUser = await userManager.signinSilent();
+
+        return JSON.stringify(silentUser);
+      default:
+        throw new Error('The specified callback is invalid, it must be one of "popup", "redirect", "silent".');
+    }
+  };
+
+  const logout = async (callback) => {
+    switch (callback) {
+      case 'popup':
+        localStorage.setItem('oidc:callback', 'popup');
+        
+        await userManager.signoutPopup();
+
+        break;
+      case 'redirect':
+        localStorage.setItem('oidc:callback', 'redirect');
+
+        await userManager.signoutRedirect();
+
+        break;
+      default:
+        throw new Error('The specified callback is invalid, it must be one of "popup", "redirect".');
+    }
+  };
+
+  window.functions = {
+    getUser: getUser,
+    login: login,
+    logout: logout,
+    registerEvents: registerEvents
+  };
+</script>
 </body>
 </html>

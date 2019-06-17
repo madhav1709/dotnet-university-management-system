@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.2.0</PackageVersion>
+        <Authors>Thomas Clark</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Components">
+        <Version>3.0.0-preview6.19307.2</Version>
+      </PackageReference>
+      <PackageReference Include="Microsoft.JSInterop">
+        <Version>3.0.0-preview6.19304.6</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UniversityManagementSystem.Apps.Blazor.Services\UniversityManagementSystem.Apps.Blazor.Services.csproj" />
+    </ItemGroup>
+
+</Project>

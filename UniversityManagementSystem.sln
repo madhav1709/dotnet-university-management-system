@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Apps.Blazor.Components", "UniversityManagementSystem.Apps.Blazor.Components\UniversityManagementSystem.Apps.Blazor.Components.csproj", "{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityManagementSystem.Apps.Blazor.Providers", "UniversityManagementSystem.Apps.Blazor.Providers\UniversityManagementSystem.Apps.Blazor.Providers.csproj", "{0994C90F-118F-4D4D-80D4-0991374AC65E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCBD753C-C705-4C86-8217-6FBFBACAC8E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0994C90F-118F-4D4D-80D4-0991374AC65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0994C90F-118F-4D4D-80D4-0991374AC65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0994C90F-118F-4D4D-80D4-0991374AC65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0994C90F-118F-4D4D-80D4-0991374AC65E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
